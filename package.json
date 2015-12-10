@@ -15,8 +15,7 @@
     "jquery": "^2.1.4",
     "plotly": "^1.0.5",
     "phantom": "0.8.4",
-    "phantomjs": "~1.9.19",
-    "q": "1.4.1"
+    "phantomjs": "~1.9.19"
   },
   "license": "Apache 2"
 }

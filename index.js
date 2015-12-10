@@ -3,7 +3,6 @@ var readFileSync = require('fs').readFileSync;
 var url          = require('url');
 
 var phantom = require('phantom');
-var Q       = require('q');
 
 
 const PHANTOMJS_MODULE = require.resolve('phantomjs')
@@ -18,46 +17,48 @@ module.exports = {
 
         var src = block.kwargs.src;
         if(src) {
-          var relativeSrcPath = url.resolve(this.ctx.file.path, src)
-          var absoluteSrcPath = decodeURI(path.resolve(this.book.root, relativeSrcPath))
+          var relativeSrcPath = decodeURI(url.resolve(this.ctx.file.path, src))
+          var absoluteSrcPath = path.resolve(this.book.root, relativeSrcPath)
+
           body = readFileSync(absoluteSrcPath, 'utf8')
         }
 
-        return processBlock(body);
+        return convertToSvg(body).then(function(svgCode)
+        {
+          return svgCode.replace(/plotlyChart1/g, getId())
+        })
       }
     }
   }
-};
-
-function processBlock(body) {
-  return convertToSvg(body)
-      .then(function (svgCode) {
-          return svgCode.replace(/plotlyChart1/g, getId());
-      });
 }
 
-function convertToSvg(plotlyCode) {
-  var deferred = Q.defer();
-  phantom.create({binary: PHANTOMJS_BIN}, function (ph) {
-    ph.createPage(function (page) {
+function convertToSvg(plotlyCode, callback)
+{
+  return Promise(function(resolve, reject)
+  {
+    phantom.create({binary: PHANTOMJS_BIN}, function(ph)
+    {
+      ph.createPage(function(page)
+      {
+        var htmlPagePath = path.join(__dirname, 'converter.html')
 
-      var htmlPagePath = path.join(__dirname, 'converter.html');
+        page.open(htmlPagePath, function(status)
+        {
+          if(status === 'fail') return reject()
 
-      page.open(htmlPagePath, function (status) {
-        page.evaluate(
-          function (code) {
-            return renderToSvg(code);
-          },
-          function (result) {
-            ph.exit();
-            deferred.resolve(result);
-          },
-          plotlyCode);
-      });
-    });
-  });
+          page.evaluate(
+            renderToSvg,
+            function(result)
+            {
+              ph.exit()
 
-  return deferred.promise;
+              resolve(result)
+            },
+            plotlyCode)
+        })
+      })
+    })
+  })
 }
 
 function getId() {
