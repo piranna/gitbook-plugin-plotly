@@ -1,12 +1,12 @@
 <html>
   <head>
     <style type="text/css">{ margin: 0; padding: 0; }</style>
-    <script type="text/javascript" src="node_modules/mermaid/dist/mermaid.min.js"></script>
-    <script type="text/javascript" src="node_modules/mermaid/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/plotly/dist/plotly.min.js"></script>
+    <script type="text/javascript" src="node_modules/plotly/dist/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="node_modules/mermaid/dist/mermaid.css"/>
+    <link rel="stylesheet" href="node_modules/plotly/dist/plotly.css"/>
     <script>
-      mermaid.initialize({
+      plotly.initialize({
         startOnLoad: true,
         cloneCssStyles: true,
         flowchart: {
@@ -15,20 +15,20 @@
         },
       });
 
-      function renderToSvg(mermaidCode) {
+      function renderToSvg(plotlyCode) {
         var container = document.getElementById("container")
-        var holder = document.getElementById("mermaid-holder")
+        var holder = document.getElementById("plotly-holder")
 
         while (holder.firstChild)
           holder.removeChild(holder.firstChild)
 
         var el = document.createElement("div")
-            el.innerHTML = mermaidCode
-            el.className = 'mermaid'
+            el.innerHTML = plotlyCode
+            el.className = 'plotly'
 
         holder.appendChild(el)
 
-        mermaid.init()
+        plotly.init()
 
         return (new XMLSerializer()).serializeToString(container)
       }
@@ -41,8 +41,8 @@
     </script>
   </head>
   <body>
-    <div id="container" class="mermaid-container">
-      <div id="mermaid-holder"></div>
+    <div id="container" class="plotly-container">
+      <div id="plotly-holder"></div>
     </div>
   </body>
 </html>

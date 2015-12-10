@@ -12,7 +12,7 @@ const PHANTOMJS_BIN = path.resolve(PHANTOMJS_MODULE, '../../bin', 'phantomjs')
 
 module.exports = {
   blocks: {
-    mermaid: {
+    plotly: {
       process: function(block) {
         var body = block.body;
 
@@ -32,11 +32,11 @@ module.exports = {
 function processBlock(body) {
   return convertToSvg(body)
       .then(function (svgCode) {
-          return svgCode.replace(/mermaidChart1/g, getId());
+          return svgCode.replace(/plotlyChart1/g, getId());
       });
 }
 
-function convertToSvg(mermaidCode) {
+function convertToSvg(plotlyCode) {
   var deferred = Q.defer();
   phantom.create({binary: PHANTOMJS_BIN}, function (ph) {
     ph.createPage(function (page) {
@@ -52,7 +52,7 @@ function convertToSvg(mermaidCode) {
             ph.exit();
             deferred.resolve(result);
           },
-          mermaidCode);
+          plotlyCode);
       });
     });
   });
@@ -66,5 +66,5 @@ function getId() {
       .toString(16)
       .substring(1);
   }
-  return "mermaidChart-" + s4() + s4();
+  return "plotlyChart-" + s4() + s4();
 }

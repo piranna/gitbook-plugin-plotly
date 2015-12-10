@@ -1,19 +1,19 @@
 {
-  "name": "gitbook-plugin-mermaid",
-  "description": "Plugin for GitBook which renders Mermaid flow from markdown.",
+  "name": "gitbook-plugin-plotly",
+  "description": "Plugin for GitBook to render Plotly charts",
   "main": "index.js",
-  "version": "0.0.8-pre",
+  "version": "0.0.0",
   "engines": {
     "gitbook": ">=2.0.0"
   },
-  "homepage": "https://github.com/JozoVilcek/gitbook-plugin-mermaid",
+  "homepage": "https://github.com/piranna/gitbook-plugin-plotly",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JozoVilcek/gitbook-plugin-mermaid.git"
+    "url": "https://github.com/piranna/gitbook-plugin-plotly.git"
   },
   "dependencies": {
     "jquery": "^2.1.4",
-    "mermaid": "^0.5.6",
+    "plotly": "^1.0.5",
     "phantom": "0.8.4",
     "phantomjs": "~1.9.19",
     "q": "1.4.1"
