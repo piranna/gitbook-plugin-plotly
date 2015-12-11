@@ -1,48 +1,35 @@
 <html>
   <head>
     <style type="text/css">{ margin: 0; padding: 0; }</style>
-    <script type="text/javascript" src="node_modules/plotly/dist/plotly.min.js"></script>
-    <script type="text/javascript" src="node_modules/plotly/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/plotly.js/dist/plotly.min.js"></script>
 
-    <link rel="stylesheet" href="node_modules/plotly/dist/plotly.css"/>
     <script>
-      plotly.initialize({
-        startOnLoad: true,
-        cloneCssStyles: true,
-        flowchart: {
-          htmlLabels: false,
-          useMaxWidth:false
-        },
-      });
-
       function renderToSvg(plotlyCode) {
-        var container = document.getElementById("container")
-        var holder = document.getElementById("plotly-holder")
+        var plotly = document.getElementById('plotly');
 
-        while (holder.firstChild)
-          holder.removeChild(holder.firstChild)
+        var data =
+        [
+          {
+            x: [1, 2, 3, 4, 5],
+            y: [1, 2, 4, 8, 16]
+          }
+        ]
 
-        var el = document.createElement("div")
-            el.innerHTML = plotlyCode
-            el.className = 'plotly'
+        var layout =
+        {
+          margin:
+          {
+            t: 0
+          }
+        }
 
-        holder.appendChild(el)
+        Plotly.plot(plotly, data, layout)
 
-        plotly.init()
-
-        return (new XMLSerializer()).serializeToString(container)
+        return (new XMLSerializer()).serializeToString(plotly)
       }
-
-      // for debug and test rendering directly in browser
-      //$( document ).ready(function() {
-      //  var mm = "graph LR\nA[Hard edge] -->|Link text| B(Round edge)\nB --> C{Decision}\nC -->|One| D[Result one]\nC -->|Two| E[Result two]";
-      //  renderToSvg(mm);
-      //});
     </script>
   </head>
   <body>
-    <div id="container" class="plotly-container">
-      <div id="plotly-holder"></div>
-    </div>
+    <div id="plotly"></div>
   </body>
 </html>

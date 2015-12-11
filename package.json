@@ -6,14 +6,16 @@
   "engines": {
     "gitbook": ">=2.0.0"
   },
+  "scripts": {
+    "test": "./test.js"
+  },
   "homepage": "https://github.com/piranna/gitbook-plugin-plotly",
   "repository": {
     "type": "git",
     "url": "https://github.com/piranna/gitbook-plugin-plotly.git"
   },
   "dependencies": {
-    "jquery": "^2.1.4",
-    "plotly": "^1.0.5",
+    "plotly.js": "^1.2.0",
     "phantom": "0.8.4",
     "phantomjs": "~1.9.19"
   },
