@@ -1,35 +1,18 @@
 <html>
   <head>
-    <style type="text/css">{ margin: 0; padding: 0; }</style>
     <script type="text/javascript" src="node_modules/plotly.js/dist/plotly.min.js"></script>
-
     <script>
-      function renderToSvg(plotlyCode) {
-        var plotly = document.getElementById('plotly');
+      function renderToSvg(data)
+      {
+        var div = document.getElementById('plotlyChart1')
 
-        var data =
-        [
-          {
-            x: [1, 2, 3, 4, 5],
-            y: [1, 2, 4, 8, 16]
-          }
-        ]
+        Plotly.plot(div, data)
 
-        var layout =
-        {
-          margin:
-          {
-            t: 0
-          }
-        }
-
-        Plotly.plot(plotly, data, layout)
-
-        return (new XMLSerializer()).serializeToString(plotly)
+        return (new XMLSerializer()).serializeToString(div)
       }
     </script>
   </head>
   <body>
-    <div id="plotly"></div>
+    <div id="plotlyChart1"></div>
   </body>
 </html>

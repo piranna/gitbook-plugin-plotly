@@ -23,18 +23,20 @@ module.exports = {
           body = readFileSync(absoluteSrcPath, 'utf8')
         }
 
-        return convertToSvg(body).then(function(svgCode)
+        return render(body).then(function(divCode)
         {
-          return svgCode.replace(/plotlyChart1/g, getId())
+          // Assign an unique chart ID
+          return divCode.replace(/plotlyChart1/g, getId())
         })
       }
     }
   }
 }
 
-function convertToSvg(plotlyCode, callback)
+
+function render(plotlyCode, callback)
 {
-  return Promise(function(resolve, reject)
+  return new Promise(function(resolve, reject)
   {
     phantom.create({binary: PHANTOMJS_BIN}, function(ph)
     {
@@ -46,26 +48,37 @@ function convertToSvg(plotlyCode, callback)
         {
           if(status === 'fail') return reject()
 
-          page.evaluate(
-            renderToSvg,
-            function(result)
-            {
-              ph.exit()
+          setTimeout(function()
+          {
+            page.evaluate(
+              // On the HTML page
+              function(code)
+              {
+                renderToSvg(code)
+              },
+              function(result)
+              {
+                ph.exit()
 
-              resolve(result)
-            },
-            plotlyCode)
+                resolve(result)
+              },
+              plotlyCode)
+          }, 10000)
         })
       })
     })
   })
 }
 
-function getId() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
+
+function s4()
+{
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+}
+
+function getId()
+{
   return "plotlyChart-" + s4() + s4();
 }
