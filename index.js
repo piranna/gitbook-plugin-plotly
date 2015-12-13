@@ -5,8 +5,8 @@ var url          = require('url');
 var phantom = require('phantom');
 
 
-const PHANTOMJS_MODULE = require.resolve('phantomjs')
-const PHANTOMJS_BIN = path.resolve(PHANTOMJS_MODULE, '../../bin', 'phantomjs')
+//const PHANTOMJS_MODULE = require.resolve('phantomjs')
+//const PHANTOMJS_BIN = path.resolve(PHANTOMJS_MODULE, '../../bin', 'phantomjs')
 
 
 module.exports = {
@@ -38,7 +38,8 @@ function render(plotlyCode, callback)
 {
   return new Promise(function(resolve, reject)
   {
-    phantom.create({binary: PHANTOMJS_BIN}, function(ph)
+    phantom.create(function(ph)
+//    phantom.create({binary: PHANTOMJS_BIN}, function(ph)
     {
       ph.createPage(function(page)
       {
@@ -48,22 +49,18 @@ function render(plotlyCode, callback)
         {
           if(status === 'fail') return reject()
 
-          setTimeout(function()
-          {
-            page.evaluate(
-              // On the HTML page
-              function(code)
-              {
-                renderToSvg(code)
-              },
-              function(result)
-              {
-                ph.exit()
-
-                resolve(result)
-              },
-              plotlyCode)
-          }, 10000)
+          page.evaluate(
+            // On the HTML page
+            function(code)
+            {
+              return renderToSvg(code)
+            },
+            function(result)
+            {
+              ph.exit()
+              resolve(result)
+            },
+            plotlyCode)
         })
       })
     })
