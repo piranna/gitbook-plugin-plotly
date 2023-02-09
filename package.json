@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "phantom": "0.8.4",
-    "plotly.js": "^1.2.0"
+    "plotly.js": "^2.18.1"
   },
   "license": "Apache 2"
 }
