@@ -15,7 +15,7 @@
     "url": "https://github.com/piranna/gitbook-plugin-plotly.git"
   },
   "dependencies": {
-    "phantom": "0.8.4",
+    "phantom": "6.3.0",
     "plotly.js": "^1.2.0"
   },
   "license": "Apache 2"
